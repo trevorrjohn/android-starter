@@ -1,0 +1,61 @@
+#!/bin/sh
+
+if [ -z $2 ]
+then
+    echo "Usage: script/setup <application directory> <application package>"
+    echo "example: script/setup my-application com.example.android.myApplication"
+    echo "<application directory> is in the same directory as android-starter"
+    echo "<application name> is the display name of your application"
+    exit 0
+fi
+
+echo "Creating project to $1 using package $2"
+
+ORIGINAL_APP_DIRECTORY="android-starter"
+ORIGINAL_PACKAGE_NAME="com.pivotallabs.android.starter"
+
+NEW_APP_DIRECTORY=$1
+NEW_PACKAGE_NAME=$2
+NEW_PACKAGE_PATH=`echo $NEW_PACKAGE_NAME | sed 's/\./\//g'`
+
+echo "Copying files..."
+
+mkdir -p ../$NEW_APP_DIRECTORY
+cp -r * ../$NEW_APP_DIRECTORY
+cp -r .idea ../$NEW_APP_DIRECTORY
+cp .gitignore ../$NEW_APP_DIRECTORY
+cd ../$NEW_APP_DIRECTORY
+rm -f .idea/workspace.xml
+rm -f .idea/tasks.xml
+rm -Rf build target
+
+echo "Renaming files and directories..."
+
+mkdir -p src/main/$NEW_PACKAGE_PATH
+mkdir -p src/test/$NEW_PACKAGE_PATH
+
+mv src/main/com/pivotallabs/android/starter/* src/main/$NEW_PACKAGE_PATH
+mv src/test/com/pivotallabs/android/starter/* src/test/$NEW_PACKAGE_PATH
+
+# Delete directories if they are empty, i.e. if the new package name is not com.pivotallabs...
+rmdir src/main/com/pivotallabs/android/starter > /dev/null 2>&1
+rmdir src/test/com/pivotallabs/android/starter > /dev/null 2>&1
+rmdir src/main/com/pivotallabs/android > /dev/null 2>&1
+rmdir src/test/com/pivotallabs/android > /dev/null 2>&1
+rmdir src/main/com/pivotallabs > /dev/null 2>&1
+rmdir src/test/com/pivotallabs > /dev/null 2>&1
+rmdir src/main/com > /dev/null 2>&1
+rmdir src/test/com > /dev/null 2>&1
+
+mv ${ORIGINAL_APP_DIRECTORY}.iml ${NEW_APP_DIRECTORY}.iml
+
+echo "Renaming in files..."
+
+find src -name *.java -print | xargs sed -i "" -e "s/$ORIGINAL_PACKAGE_NAME/$NEW_PACKAGE_NAME/g"
+sed -i "" -e "s/$ORIGINAL_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" AndroidManifest.xml pom.xml
+sed -i "" -e "s/$ORIGINAL_APP_DIRECTORY/$NEW_APP_DIRECTORY/g" ${NEW_APP_DIRECTORY}.iml pom.xml .idea/*.xml .idea/runConfigurations/*.xml
+
+echo "Initializing Git"
+
+git init
+git add .
