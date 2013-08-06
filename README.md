@@ -1,18 +1,19 @@
 # Android Starter
 
 This is a minimalistic project setup for test driving an android application with Robolectric.
-It uses: Maven, Robolectric, Fest assertions, Roboguice, Android 4.2.2
+It uses: Maven, Robolectric, Fest assertions, Roboguice, Android 4.3
 
 The goal is for use to be able to create a new project using this template, and get running quickly using Android Studio.
 
-This project assumes your Android SDK is installed in $HOME/android-sdk
+This project assumes your Android SDK is installed in $ANDROID_HOME
 
-1. Setup Android in $HOME/android-sdk
-2. Create a new project
-3. Setup Android 4.2.2 in your local maven repo
-4. Open the project in Android Studio
+1. Install android-sdk (`brew install android-sdk`)
+2. Export `ANDROID_HOME` environment variable (`export ANDROID_HOME=/usr/local/opt/android-sdk`)
+3. Setup Maven (`./script/setup`)
+4. Create a new project using the instructions below (`./script/create-project...`)
+4. Open the project in Android Studio (Not 'Import')
 5. Run Tests via Android Studio (Ensure jUnit is configured)
-6. Run Tests via Maven (`mvn clean test`)
+6. Run Tests via Maven (`$ mvn clean test`)
 7. Code!
 
 
@@ -51,9 +52,9 @@ Then you should be able to open the project in Android Studio.
 Running the tests should be as simple as running the test build, or the maven test target.
 
 
-## Installing Android 4.2.2 in your local maven repository
+## Installing Android 4.3 in your local maven repository
 
-After installing Android 4.2.2 in your sdk, simply do:
+After installing Android 4.3 in your sdk, simply do:
 
 ```
 $ script/setup

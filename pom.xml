@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
-            <version>4.2.2</version>
+            <version>4.3</version>
             <scope>provided</scope>
         </dependency>
 
@@ -87,8 +87,8 @@
                 <version>3.6.0</version>
                 <configuration>
                     <sdk>
-                        <platform>17</platform>
-                        <path>${env.HOME}/android-sdk</path>
+                        <platform>18</platform>
+                        <path>${env.ANDROID_HOME}</path>
                     </sdk>
                     <undeployBeforeDeploy>true</undeployBeforeDeploy>
                 </configuration>
